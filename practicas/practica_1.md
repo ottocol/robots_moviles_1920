@@ -301,6 +301,8 @@ Desarrolla un programa que haga que el robot se mueva por el entorno evitando lo
 
 Como idea sencilla podéis mirar las lecturas que apuntan más o menos a la derecha y las que apuntan más o menos a la izquierda (en lugar de tomar una sola podéis coger la media de varias que estén en un ángulo similar). Si las lecturas de la izquierda son menores que las de la derecha hay que girar hacia la derecha, y viceversa. Podéis añadir mejoras como por ejemplo que el giro sea mayor si la diferencia entre izquierda y derecha es mayor, que el robot se pare si la distancia mínima baja de un umbral de seguridad, etc.
 
+**IMPORTANTE**: el código debería funcionar para cualquier sensor de rango 2D independientemente del número de lecturas y del ángulo de visión del sensor. Únicamente debéis suponer que el ángulo de visión tiene su punto medio en el frente (con lo que la lectura del medio del array será lo que tiene el robot justo enfrente). **Haced el código lo bastante  genérico para que aunque cambie el número de lecturas y el ángulo de visión el programa siga funcionando correctamente**.
+
 Tenéis que entregar:
 
 - Código fuente del programa con comentarios de cómo funciona
@@ -311,7 +313,7 @@ Tenéis que entregar:
 
   
 
-  IMPORTANTE: en evitación de obstáculos (como en todo lo demás) no hay algoritmos perfectos  ni que funcionen siempre en todos los casos. No debéis intentar "esconder" los casos en los que vuestro código no funciona, sino  documentarlos y encontrarle una explicación. Es importante conocer las limitaciones de un algoritmo para poder aplicarlo.
+  **IMPORTANTE**: en evitación de obstáculos (como en todo lo demás) no hay algoritmos perfectos  ni que funcionen siempre en todos los casos. No debéis intentar "esconder" los casos en los que vuestro código no funciona, sino  documentarlos y encontrarle una explicación. Es importante conocer las limitaciones de un algoritmo para poder aplicarlo.
 
 
 
