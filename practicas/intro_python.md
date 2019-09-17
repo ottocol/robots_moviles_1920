@@ -22,6 +22,9 @@ a = 'Hola'
 a = 'Hola'
 a = 1  #válido
 ```
+
+- ¿Cómo es esto posible?. A diferencia de lenguajes como C, donde una variable tiene una dirección de comienzo en memoria y un número fijo de bytes reservados, y por tanto no puede cambiar de tipo, en Python las variables en realidad son punteros
+
 - números y operadores
    * operadores aritméticos: idem a C, exponenciación `**`
    * operadores comparación idem a C (`==, !=, <= ,...`)
@@ -34,9 +37,9 @@ a = 1  #válido
   * Delimitadas por comillas simples o dobles
   * Concatenar con `+`
   * Subíndices `[posicion]`. Empiezan en 0. Si es negativo es desde el final de la cadena
-  * Obtener la longitud con la función `len`
+  * Obtener la longitud con la función `len(cadena)`
   * Las cadenas no son modificables, no podemos hacer por ejemplo `cadena[1]='a'`
-  * *slice*: `[comienzo:final]` (la pos. final no se incluye en el slice). Se puede omitir comienzo y/o final
+  * *slice*: `[comienzo:final]` (la pos. final no se incluye en el slice). Se puede omitir comienzo y/o final. Gracias a que la pos final no se incluye, la cadena es `cadena[:pos]+cadena[pos:]``
   
 ## Colecciones
 
@@ -125,8 +128,37 @@ def incremento(valor, inc):
 
 - "parecido" a C pero los parámetros no tienen tipo definido ni se define el tipo de retorno de la función
 - parámetros con valores por defecto: `def incremento(valor, inc=1):`
--  **"Python is call-by-value, where all values are object references"**
 
+
+## ¿Paso por valor o por referencia?
+
+- ¿Qué pasa cuando asignamos una variable a otra o la pasamos como parámetro y luego modificamos la otra variable o el parámetro, se modifica el original o no?. Por ejemplo
+
+```python
+a = 1
+b = a
+b = 2 #¿Qué sucede con el valor de a?
+```
+
+O por ejemplo
+
+```python
+def modificar(valor):
+   valor = valor + 1
+   print valor
+
+a = 1
+modificar(a) #¿Qué sucede con el valor de a?  
+```
+
+- como las variables son referencias, asignar un nuevo valor a una variable solo afecta a esta variable, hace que referencie a un nuevo objeto
+- no obstante hay objetos que se pueden modificar parcialmente, o dicho de otro modo son *mutables* como las listas. En ese caso modificar parte del objeto afectará a todas las referencias a él. Por ejemplo
+
+```python
+lista = [1, 2]
+copia = lista
+copia[0] = "hola" #lista y copia referencian al mismo objeto, por tanto contienen ["hola", 2]
+```
 
 ## Excepciones
 
@@ -166,6 +198,16 @@ print time.asctime()
 ```python
 from time import asctime
 print asctime
+```
+
+- se pueden poner alias
+
+```python
+import time as t
+print t.asctime()
+
+from time import asctime as fechita
+print fechita()
 ```
 
 - físicamente un módulo no es más que un archivo en el directorio actual o en uno de los directorios en que Python busca automáticamente (`sys.path`). [Ejemplo *online*](https://repl.it/@ottocol/HealthyPhysicalMalware)
