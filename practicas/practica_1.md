@@ -4,7 +4,7 @@ ROS (Robot Operating System) es un conjunto de bibliotecas y herramientas para a
 
 Ya habéis utilizado ROS en otras asignaturas así que nos limitaremos a dar un breve repaso de los conceptos en que se basa, sin explicarlos en profundidad.
 
-A continuación veremos cómo ejecutar programas ROS tanto en el simulador como en los robots reales de que disponemos (los Turtlebot 2) y finalmente veremos cómo programar en ROS usando Python.
+A continuación veremos cómo ejecutar programas ROS en el simulador y finalmente veremos cómo programar en ROS usando Python.
 
 ## Conceptos básicos
 
@@ -79,8 +79,6 @@ Si lanzáis la herramienta `rviz` como lo hacíamos con stage podréis ver gráf
 ```bash
 rosrun rviz rviz
 ```
-## Probando ROS en el robot real
-
 ## Programando en ROS
 
 ### *Workspaces* y *packages*
@@ -95,20 +93,20 @@ Primero hay que crear el. *workspace* que no es más que un directorio con una d
 
 1. **Crea un directorio cualquiera** para alojar el *workspace* (en los ejemplos de ROS se suele usar el nombre `catkin_ws`)
 
-2. Métete el el directorio, dentro de él **crea un subdirectorio `src**` 
+2. Métete el el directorio, dentro de él **crea un subdirectorio `src`** 
 
-   1. ```bash
+    ```bash
       cd catkin_ws
       mkdir src
-      ```
+    ```
 
 3. **Ejecuta la orden `catkin_make`** (desde `catkin_ws`, no desde el ` src`) para crear automáticamente el resto de directorios y ficheros de configuración del *workspace*
 
 > IMPORTANTE: para que el sistema "sepa" que `catkin_ws` es un *workspace* de ROS, cada vez que vayamos a usarlo hay que hacer antes
 
-```bash
- source devel/setup.bash
-```
+  ```bash
+   source devel/setup.bash
+  ```
 
 > Esto tendrá efecto en la terminal actual, si abrimos otra habrá que hacerlo de nuevo
 
@@ -118,12 +116,12 @@ Los paquetes residen el el directorio `src` del *workspace*
 
 1. **Métete en el directorio `src`** del *workspace* que creaste 
 
-   1. ```bash
+      ```bash
       cd catkin_ws/src
       ```
 2. **Ejecuta la orden `catkin_create_pkg`** para crear el paquete. Hace falta pasarle el nombre del nuevo paquete y la lista de los paquetes de los que depende. En nuestro caso son dos: `rospy`, que nos permite programar en ROS usando Python y `std_msgs`, donde se definen los tipos de mensajes estándar       
   
-   1. ```bash
+      ```bash
       catkin_create_pkg practica1 rospy std_msgs
       ```
 
@@ -223,13 +221,13 @@ NOTA: el turtlebot simulado en realidad no tiene un sensor de rango 2D. Tiene un
 
 Paraº escribir el código Python necesitamos saber qué información hay en el topic `/scan`. Esto lo podemos hacer con varios comandos de ROS. Por ejemplo con `rostopic` podemos ver el tipo de datos del topic. **Teniendo la simulación de Gazebo en marcha (o el robot real)** escribe en una terminal:
 
-```
+```bash
 rostopic info /scan
 ```
 
 Aparecerá en pantalla junto con otra información el tipo de datos del *topic*, en este caso `sensor_msgs/LaserScan`. Con el comando `rosmsg`podemos ver la estructura de un mensaje de este tipo
 
-```
+```bash
 rosmsg show sensor_msgs/LaserScan
 ```
 
@@ -262,7 +260,7 @@ sub = rospy.Subscriber('/scan', LaserScan, callback)
 rospy.spin()
 ```
 
-Como nuestro código depende del paquete `sensor_msgs`deberíamos **añadir en el `package.xml` una etiqueta `<depend>`**indicándolo. Hacia el final del archivo habrá una serie de etiquetas de este tipo, podemos añadir una nueva:
+Como nuestro código depende del paquete `sensor_msgs` deberíamos **añadir en el `package.xml` una etiqueta `<depend>`**indicándolo. Hacia el final del archivo habrá una serie de etiquetas de este tipo, podemos añadir una nueva:
 
 ```xml
 <depend>sensor_msgs</depend>
@@ -293,7 +291,7 @@ while not rospy.is_shutdown():
     pub.publish(cmd)
 ```
 
-podemos escribir una `f`, `l`o `g` (seguidas de INTRO) para hacer que el robot avance recto, hacia la izquierda o hacia la derecha una corta distancia.
+podemos escribir una `f`, `l` o `r` (seguidas de INTRO) para hacer que el robot avance recto, hacia la izquierda o hacia la derecha una corta distancia.
 
 ## Tarea a desarrollar en la práctica: moverse evitando obstáculos
 
@@ -310,25 +308,6 @@ Tenéis que entregar:
 - Pruebas realizadas con el robot simulado en varios entornos y con el robot real. Haced un video con los experimentos
 
 - A partir de las pruebas realizadas, escribid de media página a 2 páginas máximo con una evaluación del algoritmo: en qué circunstancias funciona, en cuáles ha fallado, por qué creéis que lo ha hecho y cómo creéis que se podría solucionar. 
-
   
 
   **IMPORTANTE**: en evitación de obstáculos (como en todo lo demás) no hay algoritmos perfectos  ni que funcionen siempre en todos los casos. No debéis intentar "esconder" los casos en los que vuestro código no funciona, sino  documentarlos y encontrarle una explicación. Es importante conocer las limitaciones de un algoritmo para poder aplicarlo.
-
-
-
-## Apéndice: configuración de los robots turtlebot del laboratorio
-
-Los turtlebot llevan a bordo un PC en el que está instalado también ROS, y dicho PC tiene conexión wifi, aunque no tiene pantalla. Usando VNC a través de la wifi podemos emplear los equipos del laboratorio como terminales gráficos para el robot (es decir, básicamente como si fueran la pantalla/teclado/ratón del robot)
-
-Lo primero es conectarte a la red inalámbrica local para los robots. Como verás hay 3 redes inalámbricas, pero son todas la misma red local, hay 2 redes en 5 G y 1 en 2.4G para dispositivos inalámbricos más antiguos. Todas tienen el mismo **password de acceso a la wifi: `labrobot18wifi`**.
-
-En cada robot turtlebot está funcionando el servidor VNC por defecto que viene en Ubuntu, en principio cualquier cliente VNC te debería permitir conectarte a los robots, en Ubuntu se puede utilizar el visor que viene por defecto, Remmina VNC.
-
-Datos VNC turtlebot
-
-- Turtlebot1. IP: 192.168.1.5 password: turtle_1 
-- Turtlebot2. IP: 192.168.1.6 password: turtle_2 
-- Turtlebot3. IP: 192.168.1.7 password: turtle_3 
-- Turtlebot4. IP: 192.168.1.8 password: turtle_4
-- Turtlebot5. IP: 192.168.1.9 password: turtle_5
