@@ -72,7 +72,7 @@ mitupla  = (1, "hola", 27)
 - conjunto de pares clave:valor
 
 ```python
-beatles = ["bateria":"Ringo", "bajo":"Paul", "guitarra1":"John", "guitarra2":"George"]
+beatles = {"bateria":"Ringo", "bajo":"Paul", "guitarra1":"John", "guitarra2":"George"}]
 print beatles["bateria"]
 beatles["bajo"] = "Sid"
 ```
@@ -87,7 +87,7 @@ beatles["bajo"] = "Sid"
 if condicion:
    sentencia1
    ...
-else
+else:
    ...
    ...
 ```
@@ -110,12 +110,15 @@ while condicion:
 ```
 
 ```python
-for elemento in secuencia
+for elemento in secuencia:
+   print elemento
    ...
 ```
 
 ```python
-for i in range(1,5)  #range(5) empezaría en 0
+lista = [1,2,3,4]
+for i in range(1,5):  #si fuera range(5) empezaría en 0
+   print lista[i].    #imprimirá 2, 3, 4 (ya que empieza en la pos 1 y el range llega a pero no incluye el límite superior)
    ...
 ```
 
@@ -197,7 +200,7 @@ print time.asctime()
 
 ```python
 from time import asctime
-print asctime
+print asctime()
 ```
 
 - se pueden poner alias
