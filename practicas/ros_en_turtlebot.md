@@ -1,15 +1,82 @@
-## Configuración de los robots turtlebot del laboratorio
+# Cómo trabajar con los turtlebot del laboratorio en ROS
 
-Los turtlebot llevan a bordo un PC en el que está instalado también ROS, y dicho PC tiene conexión wifi, aunque no tiene pantalla. Usando VNC a través de la wifi podemos emplear los equipos del laboratorio como terminales gráficos para el robot (es decir, básicamente como si fueran la pantalla/teclado/ratón del robot)
+Los turtlebot llevan a bordo un PC en el que está instalado ROS Indigo. El PC tiene conexión wifi, aunque no tiene pantalla. Básicamente habría dos formas de trabajar con los robots:
 
-Lo primero es conectarte a la red inalámbrica local para los robots. Como verás hay 3 redes inalámbricas, pero son todas la misma red local, hay 2 redes en 5 G y 1 en 2.4G para dispositivos inalámbricos más antiguos. Todas tienen el mismo **password de acceso a la wifi: `labrobot18wifi`**.
+- A través de la wifi podemos emplear los PCs del laboratorio (o tu portátil si lo prefieres) como terminales gráficos para el robot (es decir, básicamente como si fueran la pantalla/teclado/ratón del PC del robot). Todo el código ROS se estaría ejecutando en el propio robot.
+- Ejecutar nuestro código ROS en el PC del laboratorio (o en tu portátil) y configurar su ROS Kinetic para que se comunique de manera transparente con el ROS Indigo del robot, en el que correrían entre otros los nodos de los sensores, publicando información.
 
-En cada robot turtlebot está funcionando el servidor VNC por defecto que viene en Ubuntu, en principio cualquier cliente VNC te debería permitir conectarte a los robots, en Ubuntu se puede utilizar el visor que viene por defecto, Remmina VNC.
+En los turtlebot de que disponemos ya está configurada la primera forma, pero se podría configurar esta última siguiendo por ejemplo [este tutorial](http://wiki.ros.org/turtlebot/Tutorials/indigo/Network%20Configuration) de la documentación de ROS.
 
-Datos VNC turtlebot
+## Conexión con el robot
 
-- Turtlebot1. IP: 192.168.1.5 password: turtle_1 
-- Turtlebot2. IP: 192.168.1.6 password: turtle_2 
-- Turtlebot3. IP: 192.168.1.7 password: turtle_3 
-- Turtlebot4. IP: 192.168.1.8 password: turtle_4
-- Turtlebot5. IP: 192.168.1.9 password: turtle_5
+> Recalcar que TODO el código ROS se ejecutará en el robot, y que los PCs del laboratorio solo van a hacer de terminal (pantalla/teclado/ratón)
+
+Lo primero es conectarte a la red inalámbrica local del laboratorio. Hay 3 redes inalámbricas (`labrobot-wifi-5-1`, `labrobot-wifi-5-2`, `labrobot-wifi-2-4`) pero son todas la misma red local (hay 2 redes en 5 G y 1 en 2.4G para dispositivos inalámbricos más antiguos).
+
+> Los PCs del laboratorio no tienen wifi, pídele al profesor un pendrive wifi de los armarios de material 
+ 
+Una vez conectado el PC del laboratorio a la wifi, hay que conectar con un robot concreto. Lo haremos mediante VNC, que es un protocolo que permite conectar terminales gráficos a máquinas remotas. El cliente VNC es el equipo que hace de terminal y el servidor la máquina remota (en nuestro caso el robot)
+
+Arranca el robot con el interruptor de la base. Espera un minuto a que arranque su ordenador de a bordo.
+
+En cada robot turtlebot ya debería estar funcionando un servidor VNC. Cualquier cliente VNC te debería permitir conectarte a los robots, en Ubuntu el visor por defecto se llama **Remmina VNC**.
+
+Los datos de los turtlebot son: (cada robot tiene el número en una pegatina en la parte superior)
+
+- Turtlebot 1. IP: 192.168.1.5 password: turtle_1 
+- Turtlebot 2. IP: 192.168.1.6 password: turtle_2 
+- Turtlebot 3. IP: 192.168.1.7 password: turtle_3 
+- Turtlebot 4. IP: 192.168.1.8 password: turtle_4
+- Turtlebot 5. IP: 192.168.1.9 password: turtle_5
+
+Si estás usando Remmina, en el desplegable elige el protocolo VNC y teclea la IP del robot con el que quieras conectar. 
+
+## Arrancar ROS en el robot
+
+Para que los sensores y servicios del robot empiecen a publicar datos en ROS:
+
+```bash
+#arranque "mínimo" para que la base se mueva
+roslaunch turtlebot_bringup minimal.launch
+#laser
+roslaunch turtlebot_bringup hokuyo_ust10lx.launch
+#cámara RGBD. Nos da la distancia en 3D a la que se encuentra cada pixel de la imagen
+roslaunch astra_launch astra.launch
+```
+
+> NO es necesario arrancar siempre todos los servicios y sensores, es mejor arrancar los mínimos imprescindibles. Por ejemplo para la práctica 1 no necesitas la cámara RGBD (`astra`), solo el laser, por lo que puedes obviar la última línea
+
+Tras la ejecución de estos comandos el robot estará operativo, publicando información sobre su odometría, sensores de contacto, laser, etc. Para comprobarlo prueba a consultar los topics disponibles, a ver si aparece una lista. Comprueba que aparezca `/scan`, (el laser) que es el que necesitas para la práctica 1
+
+```bash
+rostopic list
+```
+> Si te fijas en el turtlebot simulado verás que no tiene laser y sin embargo también publica un *topic* `/scan`. Esto es porque en la simulación se usa la cámara RGBD como sensor de rango (solo se toma una fila horizontal de pixels). Sin embargo esto no debería afectar a la práctica 1 ya que tu código debería funcionar razonablemente independientemente de la resolución exacta del sensor de rango.
+
+también puedes probar a teleoperar el robot con el teclado para comprobar que se puede mover la base
+
+```bash
+roslaunch turtlebot_teleop keyboard_teleop.launch
+```
+
+## Copiar archivos entre el PC y el robot
+
+Con la versión actual de VNC instalada en los robots no se pueden enviar archivos entre el PC y el robot. Una forma alternativa de copiar archivos es con la herramienta en línea de comandos `scp` (pregúntale al profesor el usuario y la contraseña para usar `scp`).
+
+Copiar desde el PC al robot:
+
+```bash
+#Esto se teclea DESDE UNA TERMINAL DEL LINUX del PC, NO en el VNC
+scp mi_archivo.zip usuario@IP_del_robot:~
+```
+
+te pedirá la contraseña para el usuario de `scp` y lo copiará al directorio `home` de ese usuario.
+
+Copiar desde el robot al PC:
+
+```bash
+#Esto se teclea DESDE UNA TERMINAL DEL LINUX del PC, NO en el VNC
+scp usuario@IP_del_robot:~/mi_archivo.zip .
+```
+
+
