@@ -266,7 +266,11 @@ Como nuestro código depende del paquete `sensor_msgs` deberíamos **añadir en 
 <depend>sensor_msgs</depend>
 ```
 
-Podemos controlar el movimiento del robot publicando mensajes en el *topic* `/mobile_base/commands/velocity`. Mediante el comando `rostopic info /mobile_base/commands/velocity`podremos ver que usa mensajes de tipo `geometry_msgs/Twist` y con `rosmsg show geometry_msgs/Twist` podemos ver la estructura del mensaje. Básicamente podemos fijar una velocidad lineal en x,y,z y también una velocidad angular con los mismos componentes. Al publicar un mensaje de este tipo no dejamos fija la velocidad sino que pasado un breve espacio de tiempo la velocidad volverá a ser 0. En el siguiente ejemplo podemos ver cómo mandar mensajes de este tipo desde Python:
+Podemos controlar el movimiento del robot publicando mensajes en el *topic* `/mobile_base/commands/velocity`. Mediante el comando `rostopic info /mobile_base/commands/velocity`podremos ver que usa mensajes de tipo `geometry_msgs/Twist` y con `rosmsg show geometry_msgs/Twist` podemos ver la estructura del mensaje. 
+
+> En Turtlebot 3 el topic será `cmd/vel` en lugar de /mobile_base/commands/velocity`
+
+Básicamente podemos fijar una velocidad lineal en x,y,z y también una velocidad angular con los mismos componentes. Al publicar un mensaje de este tipo no dejamos fija la velocidad sino que pasado un breve espacio de tiempo la velocidad volverá a ser 0. En el siguiente ejemplo podemos ver cómo mandar mensajes de este tipo desde Python:
 
 ```python
 #!/usr/bin/env python
