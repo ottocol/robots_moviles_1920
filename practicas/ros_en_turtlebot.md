@@ -61,22 +61,26 @@ roslaunch turtlebot_teleop keyboard_teleop.launch
 
 ## Copiar archivos entre el PC y el robot
 
-Con la versión actual de VNC instalada en los robots no se pueden enviar archivos entre el PC y el robot. Una forma alternativa de copiar archivos es con la herramienta en línea de comandos `scp` (pregúntale al profesor el usuario y la contraseña para usar `scp`).
+Con la versión actual de VNC instalada en los robots no se pueden enviar archivos entre el PC y el robot. Una forma alternativa de copiar archivos es con la herramienta en línea de comandos `scp`.
+
+El robot tiene un usuario linux que se llama `turtlebot` y cuya contraseña es `ros`. Es el que usaremos en `scp`.
+
+> Para windows puedes copiar archivos gráficamente con una aplicación llamada [WinSCP](https://winscp.net/eng/docs/lang:es)
 
 Copiar desde el PC al robot:
 
 ```bash
 #Esto se teclea DESDE UNA TERMINAL DEL LINUX del PC, NO en el VNC
-scp mi_archivo.zip usuario@IP_del_robot:~
+scp mi_archivo.zip turtlebot@IP_del_robot:~
 ```
 
-te pedirá la contraseña para el usuario de `scp` y lo copiará al directorio `home` de ese usuario.
+te pedirá la contraseña para el usuario (que en nuestro caso es `ros`) y lo copiará al directorio `home` de ese usuario.
 
 Copiar desde el robot al PC:
 
 ```bash
 #Esto se teclea DESDE UNA TERMINAL DEL LINUX del PC, NO en el VNC
-scp usuario@IP_del_robot:~/mi_archivo.zip .
+scp turtlebot@IP_del_robot:~/mi_archivo.zip .
 ```
 
 
