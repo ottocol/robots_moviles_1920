@@ -9,11 +9,10 @@ import math
 
 	
 #Valores de ejemplo, PROBAD TAMBIÉN CON OTROS DISTINTOS
-alpha1=0.02 #influencia de la rotacion en la rotacion
-alpha2=0.07 #influencia de la distancia en la rotacion
-alpha3=0.007 #influencia de la distancia en la distancia
-alpha4=0.005 #influencia de la rotacion en la distancia
-
+alpha1=0.002 #influencia de la rotacion en la rotacion
+alpha2=0.001 #influencia de la distancia en la rotacion
+alpha3=0.001 #influencia de la distancia en la distancia
+alpha4=0.002 #influencia de la rotacion en la distancia
 
 class Pose:
 	def __init__(self, x, y, theta):
