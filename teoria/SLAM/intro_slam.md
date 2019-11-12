@@ -378,7 +378,7 @@ Problema: como solo podemos mantener un número limitado, se "perderán" muchas 
 
 Modificación del algoritmo:
 
-1. Cada **partícula** tiene un **mapa asociado** (una rejilla)
+1. Cada **partícula**, en lugar de $M$ EKFs tiene una **rejilla de ocupación asociada** 
 
 ![](imag_intro_slam/particula_y_su_mapa.png) <!-- .element: class="stretch" -->
 
@@ -386,7 +386,7 @@ Modificación del algoritmo:
 
 ## FastSLAM para rejillas de ocupación (II)
 
-2. Como una **partícula** supone una **posición** del robot, para actualizar el mapa podemos aplicar el algoritmo de **mapeado con posición conocida** que ya  visteis en el tema anterior
+2. Como una **partícula** supone una **posición** del robot, para actualizar su mapa asociado podemos aplicar el algoritmo de **mapeado con poses conocidas** que ya  visteis en el tema anterior
 
 
 ---
