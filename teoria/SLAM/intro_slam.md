@@ -156,7 +156,6 @@ La matriz de covarianza se divide en 4 partes:
 Recordad el EKF para localización
 
 **Extended\_Kalman\_Filter$(\mu_{t-1},\Sigma_{t-1},u_t,z_t)$:**
-
 1. **Predicción** 
 2. $\bar\mu_t=g(u_t,\mu_{t-1})$
 3. $\bar\Sigma_t=G_t\Sigma_{t-1}G^T_t+Q_t$
@@ -166,7 +165,6 @@ Recordad el EKF para localización
 7. $\Sigma_t=(I-K_tH_t)\bar\Sigma_t$
 
 Donde H y G son los *jacobianos*
-
 $$H_t=\frac{\partial h(\bar\mu_t)}{\partial x_t} \space \space G_t=\frac{\partial g(u_t,\mu_{t-1})}{\partial x_{t-1}}$$
 
 Las fórmulas son prácticamente iguales, cambia que **tenemos  además la parte de los *landmarks***
@@ -316,11 +314,11 @@ Vamos a intentar aplicar algún "truco" para **"reducir" la dimensionalidad**. L
 
 Por ciertas propiedades básicas de la probabilidad condicional, podemos hacer
 
-$$P(x_{1:t},l_{1:m} | z_{1:t}, u_{0,t-1}) = $$
-$$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) P(l_{1:m}|x_{1:t},z_{1:t})$$
+$$P(x_{1:t},m_{1:m} | z_{1:t}, u_{0,t-1}) = $$
+$$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) P(m_{1:m}|x_{1:t},z_{1:t})$$
 
 
-Sobre esto podemos aplicar un filtro de partículas "Rao-Blackwellizado": aplicar partículas sobre una parte del problema y un método analítico (por ejemplo un EKF) sobre la otra 
+Sobre esto podemos aplicar lo que se llama un filtro de partículas "Rao-Blackwellizado": aplicar partículas sobre una parte del problema y un método analítico (por ejemplo un EKF) sobre la otra 
 
 ---
 
@@ -335,13 +333,15 @@ Suponiendo conocidas las poses del robot, $x_{1:t}$, las posiciones de los *land
 
 Idea clave: podemos *reducir la dimensionalidad* del problema separando la estimación de las probabilidades de cada *landmark*
 
-$$P(x_{1:t},l_{1:m} | z_{1:t}, u_{0,t-1}) = $$ 
-$$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) P(l_{1:m}|x_{1:t},z_{1:t}) = $$
-$$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) \prod_{i=1}^M P(l_i|x_{1:t},z_{1:t})$$ (al ser los $l_i$ independientes)
+$$P(x_{1:t},m_{1:m} | z_{1:t}, u_{0,t-1}) = $$ 
+$$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) P(m_{1:m}|x_{1:t},z_{1:t}) = $$
+$$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) \prod_{i=1}^M P(m_i|x_{1:t},z_{1:t})$$ (al ser los $m_i$ independientes)
 
 ---
 
 ![](imag_intro_slam/descomposicion_fastslam.png)
+
+(lo que aquí aparece como $l_i$ es lo que hasta ahora llamábamos $m_i$)
 
 ---
 
