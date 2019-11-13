@@ -1,17 +1,14 @@
 
 
 # Práctica 3. Programación de tareas en robots móviles
-## Noviembre 2019
-## Otto Colomina Pardo, Sergio Orts Escolano
-
-
+**Robots Móviles. Universidad de Alicante. Noviembre 2019**
 
 En esta práctica vamos a programar un robot móvil para que realice una tarea "compuesta" que implique navegar por el entorno realizando una serie de subtareas. La tarea puede ser la que queráis, por ejemplo:
 
 - Patrullar por un edificio pasando por diversos puntos y detectando posibles "intrusos"
 - Navegar por una habitación detectando objetos tirados por el suelo y recogiéndolos si el robot tiene un brazo capaz de ello
 - Navegar por un entorno en que el robot va detectando señales (por ejemplo flechas) que le van indicando a dónde ir
-- Intentar localizar una pelota en el suelo e irla empujando para marcar gol en una portería
+- Intentar localizar una pelota en el suelo y empujarla para marcar gol en una portería
 - Cualquier otra tarea que se os ocurra...
 
 > NOTA: según sea la tarea que diseñéis es posible que no la podáis probar más que en simulación. Se valorarán las pruebas en los Turtlebot reales (y además son más divertidas que las simulaciones :)) pero también podéis usar otros modelos de robots distintos y simplemente simularlos en ROS.
@@ -29,13 +26,13 @@ La tarea puede ser muy diversa pero en general vais a necesitar varios tipos de 
 
 ## El *stack* de navegación de ROS
 
-El *stack* de navegación de ROS es un conjunto de nodos, de distintos paquetes, que sirven para gestionar las tareas de navegación en robots móviles. Básicamente el *stack* nos permite mover el robot a un destino siguiendo un camino "razonablemente" corto (puede no ser el óptimo) y a la vez evitando los obstáculos. Estos pueden ser de dos tipos: los que están reflejados en el mapa (paredes, vallas, ...) y los obstáculos "temporales" que se va encontrando por el camino (sillas, personas, ...). Por tanto el *stack* de navegación usará tanto información del mapa (que habéis construido en la práctica anterior) como datos de los sensores (laseres, sonares, cámara,...).
+El *stack* de navegación de ROS es un conjunto de nodos, de distintos paquetes, que sirven para gestionar las tareas de navegación en robots móviles. Básicamente el *stack* de navegación resuelve una serie de problemas:
 
-La siguiente figura, tomada de [esta presentación](https://www.dis.uniroma1.it/~nardi/Didattica/CAI/matdid/robot-programming-ROS-introduction-to-navigation.pdf) muestra la estructura del *stack*. Como puede verse es bastante compleja.
+- Localización
+- Navegación a un punto del mapa siguiendo la ruta más corta y sin chocar con el entorno 
+- Evitación de obstáculos que no están en el mapa 
 
-![](imag/navigation_stack.png)
-
-Fijáos en que el *stack* necesita localizarse y por tanto necesita un mapa, por lo que **tendréis que disponer del mapa** en formato YAML para el entorno que estéis probando.
+El *stack* necesita localizarse y por tanto necesita un mapa, por lo que **si queréis usar estas funcionalidades tendréis que disponer del mapa** en formato YAML para el entorno que estéis probando.
 
 ### Probar el *stack* de navegación con el Turtlebot simulado
 
@@ -78,6 +75,57 @@ roslaunch turtlebot_stage turtlebot_in_stage.launch
 
 ### Usar el stack de navegación en Python
 
+En este ejemplo podéis ver cómo decirle al robot que navegue hasta un determinado punto. La ruta la calculará automáticamente el *stack* de navegación ayudándose del mapa.
+
+```python
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+import rospy
+import actionlib
+from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
+import sys
+
+#Uso de la acción move_base en ROS para moverse a un punto determinado
+#En ROS una acción es como una petición de un "cliente" a un "servidor"
+#En este caso este código es el cliente y el servidor es ROS
+#(en concreto el nodo de ROS 'move_base')
+class ClienteMoveBase:
+    def __init__(self):
+        self.client =  actionlib.SimpleActionClient('move_base',MoveBaseAction)
+        #esperamos hasta que el nodo 'move_base' esté activo`
+        self.client.wait_for_server()
+
+    def moveTo(self, x, y):
+        #un MoveBaseGoal es un punto objetivo al que nos queremos mover
+        goal = MoveBaseGoal()
+        #sistema de referencia que estamos usando
+        goal.target_pose.header.frame_id = "map"
+        goal.target_pose.pose.position.x = x   
+        goal.target_pose.pose.position.y = y
+        #La orientación es un quaternion. Tenemos que fijar alguno de sus componentes
+        goal.target_pose.pose.orientation.w = 1.0
+
+        #enviamos el goal 
+        self.client.send_goal(goal)
+        #esperamos que el robot llegue al punto
+        result = self.client.wait_for_result()
+        if not result:
+            rospy.logerr("No se ha podido ejecutar la acción!!")
+        else:
+            return self.client.get_result()
+
+if __name__ == "__main__":
+    if len(sys.argv) <= 2:
+        print "Uso: " + sys.argv[0] + " x_objetivo y_objetivo"
+        exit()      
+    rospy.init_node('prueba_clientemovebase')
+    cliente = ClienteMoveBase()
+    result = cliente.moveTo(float(sys.argv[1]), float(sys.argv[2]))
+    print(result)
+    if result:
+        rospy.loginfo("Goal conseguido!")
+```
+
 ## Entrega de la práctica
 
 ### Material a entregar
@@ -104,11 +152,15 @@ Además de la documentación anterior también debéis entregar todo el **códig
 
 > Como es lógico la nota estará relacionada con la dificultad de la tarea pero también con la documentación de la práctica. 
 
-- Para una nota como máximo de 6, podéis limitaros a probar alguno de los proyectos que ya están implementados en libros o tutoriales de internet
-- Para una nota como máximo de 8, vuestra tarea debería ser original (propuesta por vosotros y no tomada de un libro/tutorial. Si tomáis la idea de algún sitio al menos la implementación debería ser vuestra)
-- Para una nota superior a 8, vuestra tarea debería ser original (propuesta por vosotros y no tomada de un libro/tutorial) y además cumplir alguna de las siguientes condiciones: 
-    - (1 punto) Que alguna subtarea hagan uso de visión: colores, formas, reconocimiento de objetos. Podéis usar cualquier paquete ROS/librería de terceros que encontréis. La nota dependerá de la dificultad de uso y también de la experimentación realizada. 
-    - (1 punto) Que hayáis probado la tarea en los turtlebot reales
+- Para una nota **como máximo de 6**, podéis limitaros a probar alguno de los proyectos que ya están implementados en libros o tutoriales de internet. Normalmente estos proyectos ya tienen el código hecho y os podéis limitar a bajároslo y probarlo (¡lo que no quiere decir que sea trivial!) **Excepcionalmente** si el proyecto es de especial complejidad porque requiere por ejemplo de hardware adicional, experimentación extensiva, programación adicional etc. **podríais obtener más nota**. Consultad con el profesor el proyecto en concreto. Podéis encontrar proyectos de este tipo por ejemplo en
+    + El libro de ["Programming Robots with ROS"](https://www.oreilly.com/library/view/programming-robots-with/9781449325480/?ar) que ya usamos en la práctica anterior describe algunos proyectos en los capítulos 11, 12 y 14
+    + El libro ["ROS robotics Projects"](https://learning.oreilly.com/library/view/ros-robotics-projects/9781783554713/) trata sobre distintos proyectos realizados con ROS, cada capítulo es un proyecto distinto. Algunos de ellos requieren hardware adicional o son especialmente complejos, por lo que os podrían servir para obtener más nota.
+- Para una nota **como máximo de 8**, vuestra tarea debería ser original, propuesta por vosotros y no tomada de un libro/tutorial. Si tomáis la idea de algún sitio al menos la implementación o gran parte de ella debería ser vuestra.
+- Para una nota **superior a 8**, vuestra tarea debería ser original (propuesta por vosotros y no tomada de un libro/tutorial) y además cumplir alguna de las siguientes condiciones: 
+    - **(1 punto)** Usar alguna librería de máquinas de estados finitos como FlexBE o SMACH.
+    - **(1 punto)** Que alguna subtarea haga uso de visión: colores, formas, reconocimiento de objetos. Podéis usar cualquier paquete ROS/librería de terceros que encontréis. La nota dependerá de la dificultad de uso y también de la experimentación realizada. 
+    - **(1 punto)** Que hayáis probado la práctica en los turtlebot reales
+    - Podéis proponer cualquier otra ampliación que se os ocurra, consultadla antes con el profesor para ver cuánto se podría valorar en el baremo  
 
 ### Plazo y procedimiento de entrega
 
