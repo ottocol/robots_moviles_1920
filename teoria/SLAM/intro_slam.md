@@ -90,7 +90,7 @@ Notas:
 
 ## SLAM como una red bayesiana
 
-![](imag_intro_slam/SLAM_graph_model.png){:width="800px"} <!-- .element: class="stretch" -->
+![](imag_intro_slam/slam_graph_model.png){:width="800px"} <!-- .element: class="stretch" -->
 
 ---
 
@@ -340,7 +340,7 @@ $$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) \prod_{i=1}^M P(m_i|x_{1:t},z_{1:t})$$ (al ser 
 
 ---
 
-![](imag_intro_slam/descomposicion_fastslam.png){width:800px}
+![](imag_intro_slam/descomposicion_fastslam.png){:width:800px} <!-- .element: class="stretch" -->
 
 ---
 
@@ -353,7 +353,7 @@ $$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) \prod_{i=1}^M P(m_i|x_{1:t},z_{1:t})$$ (al ser 
 
 ## Algoritmo FastSLAM
 
-![](imag_intro_slam/algoritmo_fastslam.png){:width="800px"} <!-- .element: class="stretch" -->
+![](imag_intro_slam/algoritmo_fastslam.png){:width="800px"}  <!-- .element: class="stretch" -->
 
 ---
 
