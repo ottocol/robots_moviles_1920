@@ -1,3 +1,4 @@
+
 <!-- .slide: class="titulo" -->
 
 
@@ -65,7 +66,7 @@ Vehículos autónomos
 
 ## La incertidumbre en el SLAM
 
-![](imag_intro_slam/slam.png) <!-- .element: class="stretch" -->
+![](imag_intro_slam/slam.png){:width="800px"} <!-- .element: class="stretch" -->
 
 Notas:
 
@@ -89,7 +90,7 @@ Notas:
 
 ## SLAM como una red bayesiana
 
-![](imag_intro_slam/SLAM_graph_model.png) <!-- .element: class="stretch" -->
+![](imag_intro_slam/SLAM_graph_model.png){:width="800px"} <!-- .element: class="stretch" -->
 
 ---
 
@@ -140,7 +141,7 @@ El mismo algoritmo EKF que usábamos para localización, pero ahora en el estado
 
  $$\mu_t = (x_t, m),  \Sigma_t=\begin{bmatrix} \Sigma_{RR} & \Sigma_{RM} \\\ \Sigma_{MR} & \Sigma_{MM}\end{bmatrix}$$
 
-![](imag_intro_slam/estado_ekf_slam.png)
+![](imag_intro_slam/estado_ekf_slam.png){:width="800px"} <!-- .element: class="stretch" -->
 
 Notas:
 
@@ -188,7 +189,7 @@ Solo se actualiza la parte en la que intervienen las coordenadas del robot (ya q
 
 Siendo ingeniosos, la actualización se puede implementar con coste *lineal* con el número de *landmarks*.
 
- ![](imag_intro_slam/prediccion_ekf_slam.png)
+ ![](imag_intro_slam/prediccion_ekf_slam.png){:width="800px"} <!-- .element: class="stretch" -->
 
 ---
 
@@ -198,7 +199,7 @@ Siendo ingeniosos, la actualización se puede implementar con coste *lineal* con
 - Es decir, el EKF **mantiene de forma explícita las correlaciones entre la posición del robot y la de los landmarks** (y también de los landmarks entre sí)
 - El coste es $O(n^2)$
 
-![](imag_intro_slam/correlation_matrix_ekf.png) <!-- .element: class="stretch" -->
+![](imag_intro_slam/correlation_matrix_ekf.png){:width="800px"} <!-- .element: class="stretch" -->
 
 ---
 
@@ -257,7 +258,7 @@ Apropiado para aplicaciones de **realidad aumentada** (AR) donde el rango de mov
 
 [https://developer.apple.com/videos/play/wwdc2018/610/](https://developer.apple.com/videos/play/wwdc2018/610/) <!-- .element: class="caption" -->
 
-![](imag_intro_slam/vio.png) <!-- .element: class="stretch" -->
+![](imag_intro_slam/vio.png){:width="800px"} <!-- .element: class="stretch" -->
 
 [ARKit](https://developer.apple.com/arkit/) de Apple, el equivalente de Google es [ARCore](https://developers.google.com/ar/) 
 
@@ -265,7 +266,7 @@ Apropiado para aplicaciones de **realidad aumentada** (AR) donde el rango de mov
 
 ## Aplicabilidad del EKF SLAM (II)
 
-![](imag_intro_slam/vio2.png) <!-- .element: class="stretch" -->
+![](imag_intro_slam/vio2.png){:width="800px"} <!-- .element: class="stretch" -->
 
 *keypoint matching* + triangulación = nube de puntos dispersa
 
@@ -409,7 +410,7 @@ Notas:
 
 ## Resultado ejemplo
 
-![](imag_intro_slam/grid_mapping_result.png)
+![](imag_intro_slam/grid_mapping_result.png){:width="800px"}
 
 ---
 
