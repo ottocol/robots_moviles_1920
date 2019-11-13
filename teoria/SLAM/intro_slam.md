@@ -340,9 +340,7 @@ $$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) \prod_{i=1}^M P(m_i|x_{1:t},z_{1:t})$$ (al ser 
 
 ---
 
-![](imag_intro_slam/descomposicion_fastslam.png)
-
-(lo que aquí aparece como $l_i$ es lo que hasta ahora llamábamos $m_i$)
+![](imag_intro_slam/descomposicion_fastslam.png){width:800px}
 
 ---
 
@@ -355,7 +353,7 @@ $$ P(x_{1:t}|z_{1:t}, u_{0,t-1}) \prod_{i=1}^M P(m_i|x_{1:t},z_{1:t})$$ (al ser 
 
 ## Algoritmo FastSLAM
 
-![](imag_intro_slam/algoritmo_fastslam.png)
+![](imag_intro_slam/algoritmo_fastslam.png){:width="800px"} <!-- .element: class="stretch" -->
 
 ---
 
@@ -381,7 +379,7 @@ Modificación del algoritmo:
 
 1. Cada **partícula**, en lugar de $M$ EKFs tiene una **rejilla de ocupación asociada** 
 
-![](imag_intro_slam/particula_y_su_mapa.png) <!-- .element: class="stretch" -->
+![](imag_intro_slam/particula_y_su_mapa.png){:width="800px"} <!-- .element: class="stretch" -->
 
 ---
 
@@ -398,7 +396,7 @@ El algoritmo `gmapping` [integrado en ROS](http://wiki.ros.org/gmapping) es de t
 
 Mejora (incluída también en FastSLAM 2.0): en el *sampling* las muestras no se obtienen solo de la función de movimiento sino que tienen en cuenta las observaciones. Así nos quedamos solo con las que concuerdan con la situación actual.
 
-![](imag_intro_slam/fastslam_2.0_samples.png)<!-- .element: class="stretch" -->
+![](imag_intro_slam/fastslam_2.0_samples.png){:width="800px"} <!-- .element: class="stretch" -->
 
 Notas:
 
