@@ -139,6 +139,7 @@ Se debe entregar documentación (en cualquier formato: PDF, HTML, etc.) con los
 1. Indice del contenido de la práctica 
 2. Contenido de la práctica: 
     - Explicación de la tarea que se quiere abordar
+    - Explicación de cada una de las subtareas que la componen
     - Si usáis máquinas de estados finitos
        - Esquema de la máquina de estados y descripción general de su comportamiento
        - Descripción de cada uno de los nodos, detallando en su caso los algoritmos/métodos que haya usado cada uno de ellos: por ejemplo si un nodo busca objetos de color azul decir cómo lo habéis hecho.
@@ -148,15 +149,17 @@ Se debe entregar documentación (en cualquier formato: PDF, HTML, etc.) con los
 
 Además de la documentación anterior también debéis entregar todo el **código fuente** que hayáis realizado. En el código debéis incluir comentarios indicando qué hace cada clase y cada método o función.
 
+Si tomáis código de otros **debéis referenciar en la memoria la fuente original**.
+
 ### Baremo
 
 > Como es lógico la nota estará relacionada con la dificultad de la tarea pero también con la documentación de la práctica. 
 
-- Para una nota **como máximo de 6**, podéis limitaros a probar alguno de los proyectos que ya están implementados en libros o tutoriales de internet. Normalmente estos proyectos ya tienen el código hecho y os podéis limitar a bajároslo y probarlo (¡lo que no quiere decir que sea trivial!) **Excepcionalmente** si el proyecto es de especial complejidad porque requiere por ejemplo de hardware adicional, experimentación extensiva, programación adicional etc. **podríais obtener más nota**. Consultad con el profesor el proyecto en concreto. Podéis encontrar proyectos de este tipo por ejemplo en
-    + El libro de ["Programming Robots with ROS"](https://www.oreilly.com/library/view/programming-robots-with/9781449325480/?ar) que ya usamos en la práctica anterior describe algunos proyectos en los capítulos 11, 12 y 14
+- Para una nota **como máximo de 6**, podéis limitaros a probar alguno de los proyectos que ya están implementados en libros o tutoriales de internet. Normalmente estos proyectos ya tienen el código hecho y os podéis limitar a bajároslo y probarlo (¡lo que no quiere decir que sea trivial!) **Excepcionalmente, si el proyecto es de especial complejidad** porque requiere por ejemplo de hardware adicional, experimentación extensiva, programación adicional etc. **podéis obtener más nota**. Consultad con el profesor el proyecto en concreto. Podéis encontrar proyectos de este tipo por ejemplo en
+    + El libro de ["Programming Robots with ROS"](https://www.oreilly.com/library/view/programming-robots-with/9781449325480/?ar) que ya usamos en la práctica anterior describe algunos proyectos en los capítulos 11, 12 y 14.
     + El libro ["ROS robotics Projects"](https://learning.oreilly.com/library/view/ros-robotics-projects/9781783554713/) trata sobre distintos proyectos realizados con ROS, cada capítulo es un proyecto distinto. Algunos de ellos requieren hardware adicional o son especialmente complejos, por lo que os podrían servir para obtener más nota.
-- Para una nota **como máximo de 8**, vuestra tarea debería ser original, propuesta por vosotros y no tomada de un libro/tutorial. Si tomáis la idea de algún sitio al menos la implementación o gran parte de ella debería ser vuestra.
-- Para una nota **superior a 8**, vuestra tarea debería ser original (propuesta por vosotros y no tomada de un libro/tutorial) y además cumplir alguna de las siguientes condiciones: 
+- Para una nota **como máximo de 8**, vuestra tarea debería ser original, propuesta por vosotros y no tomada de un libro/tutorial. Si tomáis la idea de algún sitio al menos la implementación debería ser vuestra (podéis tomar código de otros por ejemplo para detectar objetos, mover el brazo, ... pero la coordinación y secuenciación de las tareas deberíais hacerla con vuestro código).
+- Para una nota **superior a 8**, vuestra tarea debería ser original como en el caso anterior y además cumplir alguna de las siguientes condiciones: 
     - **(1 punto)** Usar alguna librería de máquinas de estados finitos como FlexBE o SMACH.
     - **(1 punto)** Que alguna subtarea haga uso de visión: colores, formas, reconocimiento de objetos. Podéis usar cualquier paquete ROS/librería de terceros que encontréis. La nota dependerá de la dificultad de uso y también de la experimentación realizada. 
     - **(1 punto)** Que hayáis probado la práctica en los turtlebot reales
