@@ -75,7 +75,11 @@ roslaunch turtlebot_stage turtlebot_in_stage.launch
 
 ### Usar el stack de navegación en Python
 
-En este ejemplo podéis ver cómo decirle al robot que navegue hasta un determinado punto. La ruta la calculará automáticamente el *stack* de navegación ayudándose del mapa.
+En este ejemplo podéis ver cómo decirle al robot que navegue hasta un determinado punto del mapa. La ruta la calculará automáticamente el *stack* de navegación (siempre suponiendo que tenemos un mapa del entorno).
+
+> Para probar el siguiente ejemplo no os hace falta ningún workspace de ROS. Simplemente copiad el código a un archivo `test_movebase.py` y ejecutadlo con `python test_movebase.py <x_destino> <y_destino`.
+
+> En RViz, para saber las coordenadas de un punto, pulsad sobre el botón con un "+" de la barra de herramientas y en el cuadro de diálogo elegir `Publish Point`. Aparecerá una nueva herramienta con la que si pasáis el ratón por el mapa en RViz os irá diciendo las coordenadas en metros.
 
 ```python
 #!/usr/bin/python
@@ -130,9 +134,9 @@ if __name__ == "__main__":
 
 ### Material a entregar
 
-La documentación de la práctica es una parte muy importante en la puntuación final. 
+La documentación de la práctica es una parte muy importante en la puntuación final, ya que es el sitio en que se debe ver reflejado todo el trabajo que habéis hecho.
 
-Debéis no solo documentar la implementación que habéis hecho sino también **todos** los experimentos realizados en simulación y con el robot real (¡aun los que no funcionen!, en estos podéis analizar qué es lo que no ha funcionado y cómo lo pretendéis resolver).  
+Debéis no solo documentar la implementación sino también **todos** los experimentos realizados en simulación y con el robot real (¡aun los que no funcionen!. En estos podéis analizar qué es lo que no ha funcionado y cómo lo pretendéis resolver).  
 
 Se debe entregar documentación (en cualquier formato: PDF, HTML, etc.) con los siguientes puntos:
 
@@ -151,11 +155,9 @@ Además de la documentación anterior también debéis entregar todo el **códig
 
 Si tomáis código de otros **debéis referenciar en la memoria la fuente original**.
 
-### Baremo
+### Baremo 
 
-> Como es lógico la nota estará relacionada con la dificultad de la tarea pero también con la documentación de la práctica. 
-
-- Para una nota **como máximo de 6**, podéis limitaros a probar alguno de los proyectos que ya están implementados en libros o tutoriales de internet. Normalmente estos proyectos ya tienen el código hecho y os podéis limitar a bajároslo y probarlo (¡lo que no quiere decir que sea trivial!) **Excepcionalmente, si el proyecto es de especial complejidad** porque requiere por ejemplo de hardware adicional, experimentación extensiva, programación adicional etc. **podéis obtener más nota**. Consultad con el profesor el proyecto en concreto. Podéis encontrar proyectos de este tipo por ejemplo en
+- Para una nota **como máximo de 6**, podéis limitaros a probar alguno de los proyectos que ya están implementados en libros o tutoriales de internet. Normalmente estos proyectos ya tienen todo el código hecho y os podéis limitar a bajároslo y probarlo (¡lo que no quiere decir que sea trivial!) **Excepcionalmente, si el proyecto es de especial complejidad** porque requiere por ejemplo de hardware adicional, experimentación extensiva, programación adicional etc. **podéis obtener más nota**. Consultad con el profesor el proyecto en concreto. Podéis encontrar proyectos de este tipo por ejemplo en
     + El libro de ["Programming Robots with ROS"](https://www.oreilly.com/library/view/programming-robots-with/9781449325480/?ar) que ya usamos en la práctica anterior describe algunos proyectos en los capítulos 11, 12 y 14.
     + El libro ["ROS robotics Projects"](https://learning.oreilly.com/library/view/ros-robotics-projects/9781783554713/) trata sobre distintos proyectos realizados con ROS, cada capítulo es un proyecto distinto. Algunos de ellos requieren hardware adicional o son especialmente complejos, por lo que os podrían servir para obtener más nota.
 - Para una nota **como máximo de 8**, vuestra tarea debería ser original, propuesta por vosotros y no tomada de un libro/tutorial. Si tomáis la idea de algún sitio al menos la implementación debería ser vuestra (podéis tomar código de otros por ejemplo para detectar objetos, mover el brazo, ... pero la coordinación y secuenciación de las tareas deberíais hacerla con vuestro código).
