@@ -38,6 +38,8 @@ El *stack* necesita localizarse y por tanto necesita un mapa, por lo que **si qu
 
 Como se puede apreciar en la figura anterior el *stack* está formado por muchos nodos y ponerlos todos en marcha simultáneamente puede resultar complicado. Afortunadamente en los paquetes de turtlebot que hay instalados tenemos un par de *demos* que nos pueden servir:
 
+> IMPORTANTE: en los ordenadores del laboratorio no funcionan correctamente los paquetes `turtlebot_gazebo` y `turtlebot_stage`. Podéis bajaros el *workspace* `catkin_ws_fixed` corregido que está en moodle. Para usarlo en lugar de las versiones que vienen por defecto en el laboratorio, haced en la terminal `source catkin_ws_fixed/devel/setup.bash`
+
 Para probar con el simulador Gazebo (en 3D) y el mundo por defecto (`playground.world`)
 
 ```bash
