@@ -2,14 +2,14 @@
 
 Los turtlebot llevan a bordo un PC en el que está instalado ROS Indigo. El PC tiene conexión wifi, aunque no tiene pantalla. Básicamente habría dos formas de trabajar con los robots:
 
-- A través de la wifi podemos emplear los PCs del laboratorio (o tu portátil si lo prefieres) como terminales gráficos para el robot (es decir, básicamente como si fueran la pantalla/teclado/ratón del PC del robot). Todo el código ROS se estaría ejecutando en el propio robot.
-- Ejecutar nuestro código ROS en el PC del laboratorio (o en tu portátil) y configurar su ROS Kinetic para que se comunique de manera transparente con el ROS Indigo del robot, en el que correrían entre otros los nodos de los sensores, publicando información.
+- **Mediante VNC**: con la wifi podemos emplear los PCs del laboratorio (o tu portátil si lo prefieres) como terminales gráficos para el robot (es decir, básicamente como si fueran la pantalla/teclado/ratón del PC del robot). No hace falta que el PC tenga ROS ni esté en linux ya que todo el código ROS se estaría ejecutando en el propio robot.
+- **Master/Slave**: Ejecutar nuestro código ROS en un PC del laboratorio y configurar su ROS Kinetic para que se comunique de manera transparente con el ROS Indigo del robot, en el que correrían entre otros los nodos de los sensores, publicando información. **El PC debe tener instalado ROS**.
 
 En los turtlebot de que disponemos ya está configurada la primera forma, pero se podría configurar esta última siguiendo por ejemplo [este tutorial](http://wiki.ros.org/turtlebot/Tutorials/indigo/Network%20Configuration) de la documentación de ROS.
 
-## Conexión con el robot
+## Conexión con el robot mediante VNC
 
-> Recalcar que TODO el código ROS se ejecutará en el robot, y que los PCs del laboratorio solo van a hacer de terminal (pantalla/teclado/ratón)
+> Recuerda que TODO el código ROS se ejecutará en el robot, y que el PC solo va a hacer de terminal (pantalla/teclado/ratón)
 
 Lo primero es conectarte a la red inalámbrica local del laboratorio. Hay 3 redes inalámbricas (`labrobot-wifi-5-1`, `labrobot-wifi-5-2`, `labrobot-wifi-2-4`) pero son todas la misma red local (hay 2 redes en 5 G y 1 en 2.4G para dispositivos inalámbricos más antiguos).
 
@@ -31,7 +31,7 @@ Los datos de los turtlebot son: (cada robot tiene el número en una pegatina en 
 
 Si estás usando Remmina, en el desplegable elige el protocolo VNC y teclea la IP del robot con el que quieras conectar. 
 
-## Arrancar ROS en el robot
+### Arrancar ROS en el robot
 
 Para que los sensores y servicios del robot empiecen a publicar datos en ROS:
 
@@ -59,7 +59,7 @@ también puedes probar a teleoperar el robot con el teclado para comprobar que s
 roslaunch turtlebot_teleop keyboard_teleop.launch
 ```
 
-## Copiar archivos entre el PC y el robot
+### Copiar archivos entre el PC y el robot
 
 Con la versión actual de VNC instalada en los robots no se pueden enviar archivos entre el PC y el robot. Una forma alternativa de copiar archivos es con la herramienta en línea de comandos `scp`.
 
@@ -82,5 +82,61 @@ Copiar desde el robot al PC:
 #Esto se teclea DESDE UNA TERMINAL DEL LINUX del PC, NO en el VNC
 scp turtlebot@IP_del_robot:~/mi_archivo.zip .
 ```
+## Conexión con el robot en modo cliente/servidor
 
+> Esta forma ocupa mucho más ancho de banda pero permite usar rviz. Necesitarás ROS en el PC
+
+En resumen, hay que definir dos variables de entorno, ROS_MASTER_URI y ROS_HOSTNAME, tanto en el turtlebot como en el PC
+
+### En el PC
+
+```bash
+export ROS_MASTER_URI=http://<ip del turtlebot>:11311
+export ROS_HOSTNAME=<ip del PC>
+```
+### En el turtlebot
+
+Conectar mediante `ssh` con el turtlebot:
+
+```bash
+#del 1 al 4
+ssh turtlebot@<ip del robot>
+#en el turtlebot 5 el usuario es distinto
+ssh tb2@<ip del robot>
+```
+Si la conexión funciona, las cosas que escribas en la terminal se estarán ejecutando en el robot:
+
+```bash
+export ROS_MASTER_URI=http://localhost:11311
+export ROS_HOSTNAME=<ip del turtlebot>
+```
+Ejecutar los nodos de ROS que queramos arrancar, por ejemplo
+
+```bash
+roslaunch turtlebot_bringup minimal.launch
+roslaunch turtlebot_bringup hokuyo_ust10lx.launch
+```
+
+## Visualizar los datos en el PC con RViz
+
+```bash
+rosrun rviz rviz
+```
+
+Ver el laser:
+
+> Dará un error de fixed frame en Global Options,  (está puesto a map, pero no hay). Cambiarlo a otro, Por ejemplo a `base_link`
+
+Añadir una visualización de tipo laserScan. Cambiar el topic a /scan
+
+Ver la cámara 2D
+
+En turtlebot arrancar la cámara astra: `roslaunch astra_launch astra.launch`
+Añadir visualización de tipo Camera, cambiar topic a `/camera/rgb/image_raw`
+
+Ver la nube de puntos de la cámara astra
+
+Hay que tener arrancada la cámara en el turtlebot: `roslaunch astra_launch astra.launch`
+
+Añadir visualización de tipo DepthCloud, cambiar topic a /camera/depth/image. La nube de puntos sale en la ventana principal
 
