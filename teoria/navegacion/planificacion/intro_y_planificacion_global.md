@@ -169,7 +169,7 @@ Hay infinitos caminos posibles entre un origen y un destino, pero el espacio de 
 
 Dependerá de la representación del mapa:
 
-- *Mapas poligonales*: varias formas:
+- *Mapas poligonales*: varias formas, por ejemplo:
     + Grafo de visibilidad
     + Grafo de voronoi
 - *Rejillas de ocupación*: cada celda será un nodo, conectado con sus 8 vecinos más inmediatos. 
@@ -296,7 +296,10 @@ Seleccionando distintos nodos de comienzo y fin podemos reutilizar el grafo
 
 Vamos formando un árbol que va “creciendo” desde el origen hasta el destino
 
-![](imag/RRT_algorithm.png) <!-- .element: class="stretch" -->
+
+![](imag/RRT_algorithm.png) <!-- .element: class="column two-thirds" -->
+
+![](imag/expansion_RRT.png) <!-- .element: class="column third" -->
 
 ---
 
