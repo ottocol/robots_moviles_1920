@@ -34,7 +34,7 @@ El *stack* de navegación de ROS es un conjunto de nodos, de distintos paquetes,
 
 El *stack* necesita localizarse y por tanto necesita un mapa, por lo que **si queréis usar estas funcionalidades tendréis que disponer del mapa** en formato YAML para el entorno que estéis probando.
 
-### Probar el *stack* de navegación con el Turtlebot simulado
+### Iniciar el *stack* de navegación con el Turtlebot simulado
 
 Como se puede apreciar en la figura anterior el *stack* está formado por muchos nodos y ponerlos todos en marcha simultáneamente puede resultar complicado. Afortunadamente en los paquetes de turtlebot que hay instalados tenemos un par de *demos* que nos pueden servir:
 
@@ -74,10 +74,15 @@ También podéis probar con el simulador *stage*, que es mucho más ligero que g
 #Esto lanza el simulador, el stack de navegación y rviz todo en uno
 roslaunch turtlebot_stage turtlebot_in_stage.launch
 ```
+### Iniciar el *stack* de navegación con el Turtlebot real
 
-### Usar el stack de navegación en Python
+```bash
+roslaunch turtlebot_navigation amcl_demo.launch map_file:=<trayectoria al .yaml del mapa>
+```
 
-En este ejemplo podéis ver cómo decirle al robot que navegue hasta un determinado punto del mapa. La ruta la calculará automáticamente el *stack* de navegación (siempre suponiendo que tenemos un mapa del entorno).
+### Moverse a un punto del mapa en Python
+
+En este ejemplo podéis ver cómo decirle al robot que navegue hasta un determinado punto del mapa. La ruta la calculará automáticamente el *stack* de navegación (siempre suponiendo que tenemos un mapa del entorno). El código ejecuta una **acción**, que es como se representan en ROS las tareas que tardan un tiempo en ejecutarse. En nuestro caso la acción es de tipo `MoveBaseAction`, las que se usan para mover al robot.
 
 > Para probar el siguiente ejemplo no os hace falta ningún workspace de ROS. Simplemente copiad el código a un archivo `test_movebase.py` y ejecutadlo con `python test_movebase.py <x_destino> <y_destino`.
 
@@ -131,6 +136,25 @@ if __name__ == "__main__":
     if result:
         rospy.loginfo("Goal conseguido!")
 ```
+
+### Cancelar la acción actual
+
+El código anterior usa `wait_for_result` para ejecutar la acción, lo que nos bloquea hasta que la acción se complete. Si mientras se está ejecutando la acción quieres poder hacer otras cosas habría que meterse en un bucle consultando el estado de la acción hasta que ésta se complete.
+
+```python
+state = self.client.get_state()
+#ACTIVE es que está en ejecución, PENDING que todavía no ha empezado
+while state==GoalStatus.ACTIVE or state==GoalStatus.PENDING:
+    rospy.Rate(10)   #esto nos da la oportunidad de escuchar mensajes de ROS
+    state = self.client.get_state()
+```
+
+Tienes un ejemplo completo en [este archivo](movebase_stop.py). Mientras se ejecuta la acción el código está escuchando mensajes en el topic "/comando", y la acción se cancelará si recibe el mensaje "STOP" en este topic. Si mientras el robot se está moviendo a su destino escribes en una terminal :
+
+```bash
+rostopic pub comando std_msgs/String STOP
+```
+El robot debería cancelar la acción en curso. 
 
 ## Entrega de la práctica
 
