@@ -1,6 +1,6 @@
 # Cómo trabajar con los turtlebot del laboratorio en ROS
 
-Los turtlebot llevan a bordo un PC en el que está instalado ROS Indigo. El PC tiene conexión wifi, aunque no tiene pantalla. Básicamente habría dos formas de trabajar con los robots:
+Los turtlebot llevan a bordo un PC (Intel NUC) en el que está instalado ROS Indigo. Este ordenador tiene conexión wifi, aunque no tiene pantalla. Básicamente hay dos formas de trabajar con los robots:
 
 - **Mediante VNC**: con la wifi podemos emplear los PCs del laboratorio (o tu portátil si lo prefieres) como terminales gráficos para el robot (es decir, básicamente como si fueran la pantalla/teclado/ratón del PC del robot). **No hace falta que el PC tenga ROS** ni esté en linux ya que todo el código ROS se estaría ejecutando en el propio robot.
 - **Master/Slave**: Ejecutar nuestro código ROS en un PC del laboratorio y configurar su ROS Kinetic para que se comunique de manera transparente con el ROS Indigo del robot, en el que correrían entre otros los nodos de los sensores, publicando información. **El PC debe tener instalado ROS**.
