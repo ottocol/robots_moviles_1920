@@ -195,6 +195,6 @@ Si tomáis código de otros **debéis referenciar en la memoria la fuente origin
 
 ### Plazo y procedimiento de entrega
 
-- La práctica se entregará **antes de las 24 horas del lunes 21 de enero de 2020**.
+- La práctica se podrá entregar **hasta las 23:59 horas del martes 21 de enero de 2020**.
 - La entrega se realizará a través del UACloud de la Universidad de Alicante. Se habilitará una entrega específica para subir el código fuente y la memoria asociada a la práctica.
 
